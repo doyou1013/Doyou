@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>내 웹사이트</title>
+<style>
+:root{--bg:#fafaf7;--fg:#1c1c1a;--muted:#6b6b66;--card:#ffffff;--line:#e5e5df;--accent:#2f5d50;--accent-fg:#ffffff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141413;--fg:#f1f1ec;--muted:#a3a39b;--card:#1d1d1b;--line:#2f2f2b;--accent:#8fc4b2;--accent-fg:#10201b}}
+:root[data-theme="dark"]{--bg:#141413;--fg:#f1f1ec;--muted:#a3a39b;--card:#1d1d1b;--line:#2f2f2b;--accent:#8fc4b2;--accent-fg:#10201b}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.7}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+.logo{font-weight:700;letter-spacing:-.02em}
+nav a{color:var(--muted);text-decoration:none;margin-left:18px;font-size:15px}
+nav a:hover{color:var(--fg)}
+.hero{padding:72px 0 56px}
+.hero small{color:var(--accent);font-weight:600}
+.hero h1{font-size:clamp(34px,7vw,56px);line-height:1.2;margin:10px 0 18px;letter-spacing:-.03em}
+.hero p{color:var(--muted);font-size:18px;max-width:560px;margin:0 0 28px}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-fg);padding:12px 22px;border-radius:999px;text-decoration:none;font-weight:600}
+section{padding:48px 0;border-top:1px solid var(--line)}
+h2{font-size:24px;margin:0 0 20px;letter-spacing:-.02em}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+.card h3{margin:0 0 6px;font-size:18px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+footer{padding:36px 0 48px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+.mystery{margin-left:12px;border:2px dashed var(--accent);background:transparent;color:var(--accent);padding:10px 20px;border-radius:999px;font:inherit;font-weight:700;cursor:pointer;animation:wig 2.4s ease-in-out infinite}
+.mystery:hover{background:var(--accent);color:var(--accent-fg);animation-play-state:paused}
+@keyframes wig{0%,80%,100%{transform:rotate(0)}84%{transform:rotate(-4deg)}88%{transform:rotate(4deg)}92%{transform:rotate(-3deg)}96%{transform:rotate(2deg)}}
+.ov{position:fixed;inset:0;z-index:50;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
+.ov.on{display:flex}
+.spin{width:56px;height:56px;border:5px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp 1s linear infinite;margin-bottom:24px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.bar{width:min(340px,80vw);height:10px;background:var(--line);border-radius:999px;overflow:hidden;margin:18px 0 8px}
+.bar i{display:block;height:100%;width:0;background:var(--accent)}
+#msg{min-height:1.7em;color:var(--muted)}
+#pct{font-weight:700;font-size:28px}
+.done .spin{display:none}
+.fld{width:min(420px,88vw);display:block;margin-top:10px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--fg);font:inherit}
+.err{display:none;color:#e5392b;font-size:14px;font-weight:600;margin-top:6px;width:min(420px,88vw);text-align:left}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">MY SITE</div>
+    <nav><a href="#about">소개</a><a href="#work">작업</a><a href="#contact">연락</a></nav>
+  </header>
+
+  <div class="hero">
+    <small>안녕하세요 👋</small>
+    <h1>정도유에게 문의하기</h1>
+    <p>단순하고 깔끔하게, 쓰는 사람이 편한 결과물을 만듭니다.</p>
+    <a class="btn" href="#contact">문의하기</a><button class="mystery" id="go" type="button">🤔 이건 뭘까?</button>
+  </div>
+
+  <section id="about">
+    <h2>소개</h2>
+    <p style="color:var(--muted);max-width:640px;margin:0">자유롭게 정도유에게 문의 해 주세요</p>
+  </section>
+
+  <section id="work">
+    <h2>작업</h2>
+    <div class="grid">
+      <div class="card"><h3>프로젝트 하나</h3><p>짧은 설명을 넣는 자리입니다.</p></div>
+      <div class="card"><h3>프로젝트 둘</h3><p>짧은 설명을 넣는 자리입니다.</p></div>
+      <div class="card"><h3>프로젝트 셋</h3><p>짧은 설명을 넣는 자리입니다.</p></div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>연락</h2>
+    <p style="color:var(--muted);margin:0 0 16px">편하게 연락 주세요.</p>
+    <a class="btn" id="mail" href="mailto:doyujeong783@gmail.com">doyujeong783@gmail.com</a>
+  </section>
+
+  <footer>© 2026 MY SITE</footer>
+</div>
+<div class="ov" id="ov" role="dialog" aria-live="polite">
+  <div class="spin" id="spin"></div>
+  <div id="pct">0%</div>
+  <div class="bar"><i id="fill"></i></div>
+  <div id="msg">준비 중...</div>
+  <button class="btn" id="close" type="button" style="display:none;margin-top:24px;border:0;font:inherit;font-weight:600;cursor:pointer">돌아가기</button>
+</div>
+<div class="ov" id="inq" role="dialog">
+  <h2>문의 작성</h2>
+  <p style="color:var(--muted);margin:0 0 16px">15초나 기다려 주셔서 감사합니다.</p>
+  <input class="fld" id="iname" placeholder="이름" type="text">
+  <div class="err" id="nerr">이름을 3자 이상 적으세요</div>
+  <textarea class="fld" id="ibody" rows="6" placeholder="문의 내용을 적어 주세요"></textarea>
+  <div class="err" id="berr">문의 내용을 적으세요</div>
+  <div style="display:flex;gap:10px;margin-top:14px">
+    <button class="btn" id="send" type="button" style="border:0;font:inherit;font-weight:600;cursor:pointer">보내기</button>
+    <button class="mystery" id="cancel" type="button" style="margin:0;animation:none">닫기</button>
+  </div>
+</div>
+<script>
+// 구글 앱스 스크립트 웹앱 주소를 아래 따옴표 안에 붙여넣으세요. (README 참고)
+var SCRIPT_URL='여기에_웹앱_주소_붙여넣기';
+(function(){
+  var ov=document.getElementById('ov'),fill=document.getElementById('fill'),pct=document.getElementById('pct'),msg=document.getElementById('msg'),close=document.getElementById('close'),timer=null;
+  var msgs=['아무것도 안 하는 중...','일부러 느리게 가는 중...','진행률을 지어내는 중...','거의 다 됐다고 거짓말하는 중...','시간을 정성껏 낭비하는 중...','한 번 더 멈추는 중...','이제 정말 거의 다 됐어요'];
+  var DUR=15000;
+  var sentOk=null;var cur='';var wm=msgs.slice();function start(mode){cur=mode||'';DUR=cur==='send'?10000:15000;msgs=cur==='send'?['메시지를 포장하는 중...','우체부를 깨우는 중...','편지를 접는 중...','봉투에 침 바르는 중...','거의 다 보낸 철하는 중...']:wm.slice();
+    ov.classList.remove('done');ov.classList.add('on');close.style.display='none';
+    var t0=Date.now(),last=-1;
+    clearInterval(timer);
+    timer=setInterval(function(){
+      var r=Math.min((Date.now()-t0)/DUR,1);
+      var p=r<.6?r/.6*92:r<.9?92+(r-.6)/.3*3:95+(r-.9)/.1*5;
+      p=Math.floor(p);
+      fill.style.width=p+'%';pct.textContent=p+'%';
+      var i=Math.min(Math.floor(r*msgs.length),msgs.length-1);
+      if(i!==last){msg.textContent=msgs[i];last=i}
+      if(r>=1){clearInterval(timer);if(cur==='mail'){ov.classList.remove('on');document.getElementById('inq').classList.add('on');return}ov.classList.add('done');pct.textContent=cur==='send'?(sentOk===false?'⚠️':'✅'):'🎉';msg.textContent=cur==='send'?(sentOk===false?'전송에 실패했어요. 잠시 후 다시 시도해 주세요.':'성공적으로 보내 졌습니다!'):'축하합니다! 당신은 시간을 낭비했습니다.';close.style.display='inline-block'}
+    },100);
+  }
+  document.getElementById('go').addEventListener('click',function(){start('')});
+  document.getElementById('mail').addEventListener('click',function(e){e.preventDefault();start('mail')});
+  var inq=document.getElementById('inq');
+  document.getElementById('cancel').addEventListener('click',function(){inq.classList.remove('on')});
+  document.getElementById('send').addEventListener('click',function(){var n=document.getElementById('iname').value.trim(),b=document.getElementById('ibody').value.trim();var er=document.getElementById('nerr'),er2=document.getElementById('berr'),bad=false;if(n.length<3){er.style.display='block';document.getElementById('iname').focus();bad=true}else{er.style.display='none'}if(!b){er2.style.display='block';if(!bad)document.getElementById('ibody').focus();bad=true}else{er2.style.display='none'}if(bad)return;sentOk=null;if(SCRIPT_URL.indexOf('script.google.com')<0){sentOk=true}else{fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({name:n,message:b})}).then(function(){sentOk=true}).catch(function(){sentOk=false})}inq.classList.remove('on');document.getElementById('iname').value='';document.getElementById('ibody').value='';start('send')});
+  close.addEventListener('click',function(){ov.classList.remove('on')});
+})();
+</script>
+</body>
+</html>
