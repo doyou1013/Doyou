@@ -43,6 +43,8 @@ footer{padding:36px 0 48px;color:var(--muted);font-size:14px;border-top:1px soli
 .done .spin{display:none}
 .fld{width:min(420px,88vw);display:block;margin-top:10px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--fg);font:inherit}
 .err{display:none;color:#e5392b;font-size:14px;font-weight:600;margin-top:6px;width:min(420px,88vw);text-align:left}
+.rep{color:var(--accent);font-weight:600;margin-top:10px!important}
+.sm{border:1px solid var(--accent);background:transparent;color:var(--accent);padding:6px 14px;border-radius:999px;font:inherit;cursor:pointer;margin:8px 8px 0 0}
 </style>
 </head>
 <body>
@@ -73,13 +75,15 @@ footer{padding:36px 0 48px;color:var(--muted);font-size:14px;border-top:1px soli
     </div>
   </section>
 
+  <section id="board" style="display:none"><h2>문의 게시판</h2><div id="list"></div></section>
+
   <section id="contact">
     <h2>연락</h2>
     <p style="color:var(--muted);margin:0 0 16px">편하게 연락 주세요.</p>
     <a class="btn" id="mail" href="mailto:doyujeong783@gmail.com">doyujeong783@gmail.com</a>
   </section>
 
-  <footer>© 2026 MY SITE</footer>
+  <footer>© 2026 MY SITE · <a href="#" id="adm" style="color:inherit">관리자</a></footer>
 </div>
 <div class="ov" id="ov" role="dialog" aria-live="polite">
   <div class="spin" id="spin"></div>
@@ -102,7 +106,7 @@ footer{padding:36px 0 48px;color:var(--muted);font-size:14px;border-top:1px soli
 </div>
 <script>
 // 구글 앱스 스크립트 웹앱 주소를 아래 따옴표 안에 붙여넣으세요. (README 참고)
-var SCRIPT_URL='여기에_웹앱_주소_붙여넣기';
+var SCRIPT_URL='https://script.google.com/macros/s/AKfycbyrDC_agF6_3ff5QVaHg4Am76L5gr9wNxL8yRoeeGlwToZLzUP5ahKN2ZWFx4tiqizHPQ/exec';
 (function(){
   var ov=document.getElementById('ov'),fill=document.getElementById('fill'),pct=document.getElementById('pct'),msg=document.getElementById('msg'),close=document.getElementById('close'),timer=null;
   var msgs=['아무것도 안 하는 중...','일부러 느리게 가는 중...','진행률을 지어내는 중...','거의 다 됐다고 거짓말하는 중...','시간을 정성껏 낭비하는 중...','한 번 더 멈추는 중...','이제 정말 거의 다 됐어요'];
@@ -127,6 +131,46 @@ var SCRIPT_URL='여기에_웹앱_주소_붙여넣기';
   document.getElementById('cancel').addEventListener('click',function(){inq.classList.remove('on')});
   document.getElementById('send').addEventListener('click',function(){var n=document.getElementById('iname').value.trim(),b=document.getElementById('ibody').value.trim();var er=document.getElementById('nerr'),er2=document.getElementById('berr'),bad=false;if(n.length<3){er.style.display='block';document.getElementById('iname').focus();bad=true}else{er.style.display='none'}if(!b){er2.style.display='block';if(!bad)document.getElementById('ibody').focus();bad=true}else{er2.style.display='none'}if(bad)return;sentOk=null;if(SCRIPT_URL.indexOf('script.google.com')<0){sentOk=true}else{fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({name:n,message:b})}).then(function(){sentOk=true}).catch(function(){sentOk=false})}inq.classList.remove('on');document.getElementById('iname').value='';document.getElementById('ibody').value='';start('send')});
   close.addEventListener('click',function(){ov.classList.remove('on')});
+})();
+</script>
+<script>
+(function(){
+  if(SCRIPT_URL.indexOf('script.google.com')<0)return;
+  var sec=document.getElementById('board'),list=document.getElementById('list'),key='',items=[];
+  sec.style.display='block';
+  function el(t,txt,cls){var e=document.createElement(t);if(txt)e.textContent=txt;if(cls)e.className=cls;return e}
+  function render(){
+    list.textContent='';
+    if(!items.length){var p=el('p','아직 문의가 없어요.');p.style.color='var(--muted)';list.appendChild(p);return}
+    items.forEach(function(it){
+      var c=el('div','','card');c.style.marginBottom='12px';
+      c.appendChild(el('h3','익명'));
+      var p=el('p',it.message);p.style.whiteSpace='pre-wrap';c.appendChild(p);
+      if(it.reply){var r=el('p','답장: '+it.reply,'rep');r.style.whiteSpace='pre-wrap';c.appendChild(r)}
+      if(key){
+        var t=document.createElement('textarea');t.className='fld';t.rows=3;t.style.width='100%';t.placeholder='답장을 적으세요';t.value=it.reply||'';c.appendChild(t);
+        var b1=el('button','답장 달기','sm');b1.type='button';
+        b1.onclick=function(){var v=t.value.trim();if(!v)return;post({action:'reply',row:it.row,text:v},function(){var m=items.filter(function(x){return x.row===it.row})[0];if(!m||m.reply!==v)alert('반영되지 않았어요. 관리자 비밀번호를 확인해 주세요.')})};
+        var b2=el('button','숨기기','sm');b2.type='button';
+        b2.onclick=function(){if(confirm('이 문의를 게시판에서 숨길까요?'))post({action:'hide',row:it.row})};
+        c.appendChild(b1);c.appendChild(b2);
+      }
+      list.appendChild(c);
+    });
+  }
+  function load(done){
+    fetch(SCRIPT_URL+'?action=list').then(function(r){return r.json()}).then(function(d){items=d.items||[];render();if(done)done()}).catch(function(){list.textContent='문의 목록을 불러오지 못했어요.'});
+  }
+  function post(o,done){
+    o.key=key;
+    fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(o)})
+      .then(function(){setTimeout(function(){load(done)},2500)})
+      .catch(function(){alert('전송에 실패했어요.')});
+  }
+  document.getElementById('adm').addEventListener('click',function(e){
+    e.preventDefault();var k=prompt('관리자 비밀번호');if(k){key=k;render()}
+  });
+  load();
 })();
 </script>
 </body>
